@@ -1,4 +1,4 @@
-﻿﻿aiobotocore
+aiobotocore==2.6.0
 aiohappyeyeballs==2.3.4
 aiohttp==3.10.0
 aiohttp-retry==2.8.3
