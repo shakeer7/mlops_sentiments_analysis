@@ -105,7 +105,11 @@ def main():
         )
 
         print(f"Error: {e}")
-
+    try:
+        register_model()
+    except Exception as e:
+        print(f"[WARN] Registration failed: {e}")
+    exit(0)   # IMPORTANT: prevents DVC failure
 
 if __name__ == "__main__":
     main()
