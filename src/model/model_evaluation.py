@@ -89,7 +89,7 @@ def save_model_info(run_id, file_path):
 # -----------------------------------------------------------------------------
 def main():
 
-    mlflow.set_experiment("sentiment-pipeline-v2")
+    mlflow.set_experiment("sentiment-pipeline-v3")
 
     with mlflow.start_run() as run:
 
