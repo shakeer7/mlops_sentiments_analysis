@@ -165,5 +165,4 @@ def metrics():
     return generate_latest(registry), 200, {"Content-Type": CONTENT_TYPE_LATEST}
 
 if __name__ == "__main__":
-    # app.run(debug=True) # for local use
-    app.run(debug=True, host="0.0.0.0", port=5000)  # Accessible from outside Docker
+    app.run(host="0.0.0.0", port=5000, debug=False)  # Accessible from outside Docker
