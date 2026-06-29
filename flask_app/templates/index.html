@@ -1,87 +1,212 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentiment Analysis</title>
+    <title>AI Sentiment Analysis</title>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            padding: 20px;
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .container {
-            max-width: 500px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            padding:20px;
         }
-        h1 {
-            color: #333;
+
+        .container{
+            width:100%;
+            max-width:650px;
+            background:rgba(255,255,255,0.15);
+            backdrop-filter:blur(15px);
+            -webkit-backdrop-filter:blur(15px);
+            border:1px solid rgba(255,255,255,0.2);
+            border-radius:24px;
+            padding:40px;
+            box-shadow:0 20px 40px rgba(0,0,0,0.2);
+            color:white;
         }
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: none;
-            font-size: 16px;
+
+        .logo{
+            font-size:60px;
+            margin-bottom:10px;
         }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            margin-top: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
+
+        h1{
+            text-align:center;
+            font-size:2.2rem;
+            margin-bottom:10px;
+            font-weight:700;
         }
-        button:hover {
-            background-color: #45a049;
+
+        .subtitle{
+            text-align:center;
+            color:rgba(255,255,255,0.85);
+            margin-bottom:30px;
+            line-height:1.6;
         }
-        .result {
-            margin-top: 20px;
-            font-size: 22px;
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 5px;
+
+        label{
+            display:block;
+            margin-bottom:10px;
+            font-weight:600;
+            font-size:15px;
         }
-        .positive {
-            color: #155724;
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
+
+        textarea{
+            width:100%;
+            min-height:180px;
+            padding:18px;
+            border:none;
+            border-radius:15px;
+            resize:none;
+            outline:none;
+            font-size:16px;
+            background:rgba(255,255,255,0.95);
+            color:#333;
+            transition:all 0.3s ease;
         }
-        .negative {
-            color: #721c24;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
+
+        textarea:focus{
+            transform:translateY(-2px);
+            box-shadow:0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        button{
+            width:100%;
+            margin-top:20px;
+            padding:15px;
+            border:none;
+            border-radius:15px;
+            background:linear-gradient(135deg,#00c6ff,#0072ff);
+            color:white;
+            font-size:17px;
+            font-weight:600;
+            cursor:pointer;
+            transition:all 0.3s ease;
+        }
+
+        button:hover{
+            transform:translateY(-3px);
+            box-shadow:0 12px 25px rgba(0,114,255,0.4);
+        }
+
+        button:active{
+            transform:scale(0.98);
+        }
+
+        .result{
+            margin-top:25px;
+            padding:18px;
+            border-radius:15px;
+            text-align:center;
+            font-size:22px;
+            font-weight:700;
+            animation:fadeIn 0.5s ease-in-out;
+        }
+
+        .positive{
+            background:rgba(40,167,69,0.2);
+            border:1px solid rgba(40,167,69,0.5);
+            color:#d4ffdf;
+        }
+
+        .negative{
+            background:rgba(220,53,69,0.2);
+            border:1px solid rgba(220,53,69,0.5);
+            color:#ffd6dc;
+        }
+
+        @keyframes fadeIn{
+            from{
+                opacity:0;
+                transform:translateY(20px);
+            }
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        .footer{
+            margin-top:25px;
+            text-align:center;
+            color:rgba(255,255,255,0.7);
+            font-size:13px;
+        }
+
+        @media(max-width:768px){
+            .container{
+                padding:25px;
+            }
+
+            h1{
+                font-size:1.8rem;
+            }
+
+            .logo{
+                font-size:50px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
-        <h1>Sentiment Analysis</h1>
+
+        <div style="text-align:center;">
+            <div class="logo">🧠</div>
+            <h1>AI Sentiment Analysis</h1>
+            <p class="subtitle">
+                Analyze reviews, feedback, comments, and opinions instantly
+                using Machine Learning.
+            </p>
+        </div>
+
         <form action="/predict" method="POST">
-            <label for="text">Write text:</label><br>
-            <textarea id="text" name="text" rows="5" placeholder="Enter your text here..."></textarea><br>
-            <button type="submit">Predict</button>
+
+            <label for="text">Enter Text</label>
+
+            <textarea
+                id="text"
+                name="text"
+                placeholder="Type your review, comment, or opinion here..."
+                required></textarea>
+
+            <button type="submit">
+                🚀 Analyze Sentiment
+            </button>
+
         </form>
 
         {% if result is not none %}
             <div class="result {% if result == 1 %}positive{% else %}negative{% endif %}">
+
                 {% if result == 1 %}
-                    😊 Positive Sentiment
+                    ✅ Positive Sentiment
                 {% else %}
-                    😞 Negative Sentiment
+                    ❌ Negative Sentiment
                 {% endif %}
+
             </div>
         {% endif %}
+
+        <div class="footer">
+            Powered by Machine Learning & Flask
+        </div>
+
     </div>
 
 </body>
 </html>
+```
