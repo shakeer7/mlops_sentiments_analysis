@@ -15,23 +15,39 @@ spec:
         app: flask-app
     spec:
       containers:
-      - name: flask-app
-        image: 610714125174.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest
-        ports:
-        - containerPort: 5000
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "1"
-        env:
-        - name: CAPSTONE_TEST
-          valueFrom:
-            secretKeyRef:
-              name: capstone-secret
-              key: CAPSTONE_TEST
+        - name: flask-app
+          image: 610714125174.dkr.ecr.ap-south-1.amazonaws.com/unipiper-ecr
+          ports:
+            - containerPort: 5000
+
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+
+          env:
+            - name: CAPSTONE_TEST
+              valueFrom:
+                secretKeyRef:
+                  name: capstone-secret
+                  key: CAPSTONE_TEST
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 20
+            periodSeconds: 10
 
 ---
 apiVersion: v1
