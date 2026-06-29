@@ -1,115 +1,87 @@
-import json
-import warnings
+# register model
 
+import json
 import mlflow
+import logging
+from src.logger import logging
+import os
 import dagshub
 
-from src.logger import logging
-
+import warnings
+warnings.simplefilter("ignore", UserWarning)
 warnings.filterwarnings("ignore")
 
+# Below code block is for production use
+# -------------------------------------------------------------------------------------
+# Set up DagsHub credentials for MLflow tracking
+dagshub_token = os.getenv("CAPSTONE_TEST")
+if not dagshub_token:
+    raise EnvironmentError("CAPSTONE_TEST environment variable is not set")
 
-# -----------------------------------------------------------------------------
-# MLflow + DagsHub Setup
-# -----------------------------------------------------------------------------
-mlflow.set_tracking_uri(
-    "https://dagshub.com/mds.shakeer/mlops_sentiments_analysis.mlflow"
-)
+os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
 
-dagshub.init(
-    repo_owner="mds.shakeer",
-    repo_name="mlops_sentiments_analysis",
-    mlflow=True
-)
+dagshub_url = "https://dagshub.com"
+repo_owner = "mds.shakeer"
+repo_name = "mlops_sentiments_analysis"
+# Set up MLflow tracking URI
+mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
+# -------------------------------------------------------------------------------------
 
 
-# -----------------------------------------------------------------------------
-# Utility Functions
-# -----------------------------------------------------------------------------
+# Below code block is for local use
+# -------------------------------------------------------------------------------------
+# mlflow.set_tracking_uri('https://dagshub.com/vikashdas770/YT-Capstone-Project.mlflow')
+# dagshub.init(repo_owner='vikashdas770', repo_name='YT-Capstone-Project', mlflow=True)
+# -------------------------------------------------------------------------------------
+
+
 def load_model_info(file_path: str) -> dict:
-    """
-    Load experiment information from JSON file.
-    """
+    """Load the model info from a JSON file."""
     try:
-        with open(file_path, "r") as f:
-            model_info = json.load(f)
-
-        logging.info("Model info loaded successfully")
+        with open(file_path, 'r') as file:
+            model_info = json.load(file)
+        logging.debug('Model info loaded from %s', file_path)
         return model_info
-
-    except Exception as e:
-        logging.error("Failed to load model info: %s", e)
+    except FileNotFoundError:
+        logging.error('File not found: %s', file_path)
         raise
-
+    except Exception as e:
+        logging.error('Unexpected error occurred while loading the model info: %s', e)
+        raise
 
 def register_model(model_name: str, model_info: dict):
-    """
-    Register model in MLflow Model Registry.
-    """
-
+    """Register the model to the MLflow Model Registry."""
     try:
-        run_id = model_info["run_id"]
-
-        # MLflow model artifact location
-        model_uri = f"runs:/{run_id}/model"
-
-        print(f"Model URI: {model_uri}")
-
-        registered_model = mlflow.register_model(
-            model_uri=model_uri,
-            name=model_name
+        model_uri = f"runs:/{model_info['run_id']}/{model_info['model_path']}"
+        
+        # Register the model
+        model_version = mlflow.register_model(model_uri, model_name)
+        
+        # Transition the model to "Staging" stage
+        client = mlflow.tracking.MlflowClient()
+        client.transition_model_version_stage(
+            name=model_name,
+            version=model_version.version,
+            stage="Staging"
         )
-
-        print(
-            f"Registered Model: {model_name}, "
-            f"Version: {registered_model.version}"
-        )
-
-        logging.info(
-            "Model %s registered successfully. Version %s",
-            model_name,
-            registered_model.version
-        )
-
+        
+        logging.debug(f'Model {model_name} version {model_version.version} registered and transitioned to Staging.')
     except Exception as e:
-        logging.error(
-            "Model registration failed: %s",
-            e
-        )
+        logging.error('Error during model registration: %s', e)
         raise
 
-
-# -----------------------------------------------------------------------------
-# Main
-# -----------------------------------------------------------------------------
 def main():
-
     try:
-
-        model_info = load_model_info(
-            "reports/experiment_info.json"
-        )
-
-        register_model(
-            model_name="sentiment_model",
-            model_info=model_info
-        )
-
-        print("Model registration completed.")
-
+        model_info_path = 'reports/experiment_info.json'
+        model_info = load_model_info(model_info_path)
+        
+        model_name = "my_model"
+        register_model(model_name, model_info)
     except Exception as e:
-
-        logging.error(
-            "Failed to complete model registration: %s",
-            e
-        )
-
+        logging.error('Failed to complete the model registration process: %s', e)
         print(f"Error: {e}")
-    try:
-        register_model()
-    except Exception as e:
-        print(f"[WARN] Registration failed: {e}")
-    exit(0)   # IMPORTANT: prevents DVC failure
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
+
