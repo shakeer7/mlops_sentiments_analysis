@@ -22,8 +22,16 @@ def promote_model():
     client = mlflow.MlflowClient()
 
     model_name = "sentiment_model"
+    latest_versions_staging = client.get_latest_versions(model_name, stages=["Staging"])
+
+    if not latest_versions_staging:
+        print(f"[INFO] No Staging model found for {model_name}. Skipping promotion.")
+        exit(0)
+
+    latest_version_staging = latest_versions_staging[0].version
+    
     # Get the latest version in staging
-    latest_version_staging = client.get_latest_versions(model_name, stages=["Staging"])[0].version
+    # latest_version_staging = client.get_latest_versions(model_name, stages=["Staging"])[0].version
 
     # Archive the current production model
     prod_versions = client.get_latest_versions(model_name, stages=["Production"])
