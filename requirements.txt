@@ -95,7 +95,7 @@ MarkupSafe==2.1.5
 marshmallow==3.21.3
 matplotlib==3.9.1
 
-mlflow-skinny==2.15.0
+
 multidict==6.0.5
 mypy-extensions==1.0.0
 networkx==3.2.1
