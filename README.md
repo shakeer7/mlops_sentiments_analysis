@@ -225,6 +225,7 @@ mlflow ui
 | Recall | xx% |
 | F1 Score | xx% |
 
+Performance increase ^ when ever new model is registered
 ---
 
 ## Flask Web Application
