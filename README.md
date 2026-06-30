@@ -259,6 +259,9 @@ docker run -p 5000:5000 sentiment-analysis
 
 ## Kubernetes Deployment
 
+<img width="1917" height="1021" alt="runningpods" src="https://github.com/user-attachments/assets/467187ff-93e4-4cc9-a07b-d06ed2e088b3" />
+
+
 Apply the deployment:
 
 ```bash
