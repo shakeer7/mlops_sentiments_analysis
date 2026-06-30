@@ -54,7 +54,7 @@ It demonstrates a complete, production-style MLOps workflow covering the full li
 - CI/CD using GitHub Actions
 
 The goal of this project is to showcase practical MLOps engineering skills, bridging cloud infrastructure, automation, and applied data science.
-
+check projectflow.txt file for end to end process
 ---
 
 ## System Architecture
