@@ -53,8 +53,7 @@ It demonstrates a complete, production-style MLOps workflow covering the full li
 - Terraform Infrastructure Provisioning
 - CI/CD using GitHub Actions
 
-The goal of this project is to showcase practical MLOps engineering skills, bridging cloud infrastructure, automation, and applied data science.
-check projectflow.txt file for end to end process
+The goal of this project is to showcase practical MLOps engineering skills, bridging cloud infrastructure, automation, and applied data science. check projectflow.txt file for end to end process
 ---
 
 ## System Architecture
@@ -62,25 +61,6 @@ check projectflow.txt file for end to end process
 <img width="1024" height="1536" alt="Copilot_20260630_195427" src="https://github.com/user-attachments/assets/57077295-d8a3-4aec-bb16-9bc1282e9a43" />
 
 
-```
-Raw Data
-   ↓
-Preprocessing
-   ↓
-Feature Engineering
-   ↓
-Model Training
-   ↓
-MLflow Tracking
-   ↓
-Model Registry
-   ↓
-Flask API
-   ↓
-Docker
-   ↓
-Kubernetes
-```
 
 ---
 
