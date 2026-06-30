@@ -59,7 +59,8 @@ The goal of this project is to showcase practical MLOps engineering skills, brid
 
 ## System Architecture
 
-![Architecture](screenshots/architecture.png)
+<img width="1024" height="1536" alt="Copilot_20260630_195427" src="https://github.com/user-attachments/assets/57077295-d8a3-4aec-bb16-9bc1282e9a43" />
+
 
 ```
 Raw Data
@@ -193,8 +194,12 @@ dvc dag
 
 ## MLflow Experiment Tracking
 
-![MLflow Experiments](screenshots/mlflow_experiments.png)
-![MLflow Models](screenshots/mlflow_models.png)
+<img width="1907" height="1015" alt="mlflow_exps" src="https://github.com/user-attachments/assets/9abbc695-57b9-4ab8-afd0-4b325c79f219" />
+<img width="1875" height="1012" alt="mlo4" src="https://github.com/user-attachments/assets/4b43d8e7-b93c-4328-a7dd-36f25b030a55" />
+<img width="1877" height="985" alt="mlflow3" src="https://github.com/user-attachments/assets/151bafb5-e794-4914-8cb4-12356c302dd5" />
+<img width="1917" height="1020" alt="mlflow2" src="https://github.com/user-attachments/assets/504f88dd-e788-4324-993a-49c863d9ba54" />
+<img width="1910" height="1010" alt="mlflow_models" src="https://github.com/user-attachments/assets/09552005-50ca-4c00-90f6-5776390970ad" />
+
 
 MLflow is used to track:
 
@@ -224,14 +229,15 @@ mlflow ui
 
 ## Flask Web Application
 
-### Home Page
-![Home](screenshots/webapp_home.png)
+
+
 
 ### Positive Prediction
-![Positive](screenshots/prediction_positive.png)
+<img width="1917" height="1017" alt="positive_sentiment" src="https://github.com/user-attachments/assets/cb4e9dc8-5e2b-44ad-b722-b96685691924" />
 
 ### Negative Prediction
-![Negative](screenshots/prediction_negative.png)
+<img width="1915" height="1017" alt="negative_sentiment" src="https://github.com/user-attachments/assets/3feec371-eea5-44d5-a270-0ec3d1dbdfb5" />
+
 
 ---
 
@@ -347,7 +353,7 @@ python flask_app/app.py
 Open in your browser:
 
 ```
-http://localhost:5000
+http://loadbalancerservicefromclusterip:5000
 ```
 
 ---
